@@ -1,0 +1,98 @@
+# Setup Ubuntu VM on Apple Silicon
+
+**Requirements**
+
+- Apple Silicon hardware (etc. M1, M2, M3, M4) with minimum 16Gb RAM and 100Gb disk space.
+- UTM app.
+- Ubuntu Desktop ARM64 ISO.
+
+**What will be installed?**
+
+- Ubuntu Desktop for ARM64.
+- Visual Studio Code and extensions.
+- PHP 8.4.
+- WordPress Coding Standards.
+- Docker Engine.
+- DDEV.
+
+## Download Ubuntu Desktop ARM64 Image
+
+1. Download Ubuntu Desktop [https://launchpad.net/ubuntu/+cdmirrors](https://launchpad.net/ubuntu/+cdmirrors)
+
+## Download UTM Virtualization App for Mac
+
+1. Install the latest release from [github.com/utmapp/UTM/releases](https://github.com/utmapp/UTM/releases).
+1. Create a New Virtual Machine
+- Virtualize > Linux
+- Memory: `6144` Mib
+- CPU Cores: `6`.
+- Enable display output.
+- Enable hardware OpenGL.
+- Continue.
+- `Use Apple Virtualization`.
+- Enable Rosetta on Linux (x86_64 Emulation).
+- Boot from ISO Image.
+- Browse > Select ubuntu-X.X.X-desktop-arm64.iso.
+- Continue.
+- Size: `100` Gib.
+- Continue.
+- Name: `AFL - Ubuntu`.
+- Save.
+- Play.
+
+## Install Ubuntu
+
+1. Try or install Ubuntu.
+1. English > Next.
+1. English (US).
+1. Use wired connection.
+1. Skip.
+1. Install Ubuntu.
+1. Interactive Installation.
+- Default Selection.
+1. Install Recommended Proprietary Software ? Uncheck > Next.
+1. Erase disk and install Ubuntu.
+1. Create Account.
+- Name: jarvis
+- Host: jarvis-pc
+- Username: jarvis
+- Password: <set own password>
+- Next
+1. Set timezone
+1. Install.
+1. Shutdown.
+
+## Remove Ubuntu ISO
+
+1. In the UTM app > Select `AFL - Ubuntu`.
+1. Top right > Gear Settings.
+1. Drives > Delete Zero KB Image.
+1. Save.
+
+## Start Ubuntu VM
+
+1. Enable Ubuntu Pro > Skip.
+1. Help Improve Ubuntu > No > Next > Finish.
+
+## Run Post Install Script
+
+```bash
+curl -L "https://www.github.com/appfromlab/docs/apple/post-install.sh" -o ~/Desktop/post-install.sh
+chmod +x post-install.sh
+sudo ./post-install.sh
+```
+
+**Fix Natural Scrolling**
+
+```bash
+gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
+gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
+```
+
+**Install VS Code Extensions**
+
+```bash
+code --install-extension bmewburn.vscode-intelephense-client
+code --install-extension valeryanm.vscode-phpsab
+code --install-extension github.vscode-pull-request-github
+```
