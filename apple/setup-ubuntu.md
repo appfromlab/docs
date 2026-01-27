@@ -74,25 +74,66 @@
 1. Enable Ubuntu Pro > Skip.
 1. Help Improve Ubuntu > No > Next > Finish.
 
-## Run Post Install Script
+### Fix Ubuntu VM hang in login / user switch screen
 
 ```bash
-curl -L "https://www.github.com/appfromlab/docs/apple/post-install.sh" -o ~/Desktop/post-install.sh
-chmod +x post-install.sh
-sudo ./post-install.sh
+systemctl is-enabled NetworkManager-wait-online.service systemd-networkd-wait-online.service
+systemctl disable systemd-networkd.service
 ```
 
-**Fix Natural Scrolling**
+### Set Natural Scrolling
 
 ```bash
 gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
 gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
 ```
 
-**Install VS Code Extensions**
+### Run Post Install Script
+
+This will install PHP, Composer, WordPress Coding Standards, Visual Studio Code, Docker Engine and DDEV.
+
+```bash
+curl -L "https://github.com/appfromlab/docs/apple/post-install.sh" -O ~/Desktop/post-install.sh
+chmod +x post-install.sh
+./post-install.sh
+```
+
+### Install VS Code Extensions
+
+Was unable to install VS Code extensions as part of post-install.sh script. So you have to install manually.
 
 ```bash
 code --install-extension bmewburn.vscode-intelephense-client
 code --install-extension valeryanm.vscode-phpsab
 code --install-extension github.vscode-pull-request-github
+```
+
+### Test
+
+1. Restart your Ubuntu VM.
+1. Open terminal and check if everything is working.
+
+```bash
+# Check Composer and PHP
+composer -V
+
+# Check DDEV
+ddev -V
+
+# Check Docker
+sudo systemctl status docker
+```
+
+## Connect to Github
+
+```bash
+gh auth login
+```
+
+## Open VS Code
+
+1. In the top command bar.
+
+```bash
+>Git:clone
 ```

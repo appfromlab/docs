@@ -77,14 +77,12 @@ php composer-setup.php --quiet
 rm composer-setup.php
 sudo mv composer.phar /usr/local/bin/composer
 
-sudo composer --version
-
 # ---------------------------------------------------
 # WordPress Coding Standards
 # ---------------------------------------------------
 echo "📝 Installing WordPress Coding Standards..."
-sudo composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-sudo composer global require --dev wp-coding-standards/wpcs:"${WPCS_VERSION}" -W
+composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+composer global require --dev wp-coding-standards/wpcs:"${WPCS_VERSION}" -W
 
 # ---------------------------------------------------
 # Ensure Composer global bin is in PATH
@@ -144,13 +142,65 @@ echo "📝 Installing Visual Studio Code..."
 sudo apt update
 sudo apt install -y code
 
-echo "🧹 Fix network for Ubuntu VM hanging on user login/switching..."
+# Install VS Code Extensions
+code --install-extension bmewburn.vscode-intelephense-client
+code --install-extension valeryanm.vscode-phpsab
+code --install-extension github.vscode-pull-request-github
 
 # ---------------------------------------------------
-# Fix Ubuntu VM hanging on login / user switching
+# Install Docker Engine
 # ---------------------------------------------------
-systemctl is-enabled NetworkManager-wait-online.service systemd-networkd-wait-online.service || true
-systemctl disable systemd-networkd.service || true
+echo "📝 Installing Docker Engine..."
+
+# Remove old Docker Engine.
+sudo apt remove $(dpkg --get-selections docker.io docker-compose docker-compose-v2 docker-doc podman-docker containerd runc | cut -f1)
+
+# Add Docker's official GPG key
+sudo apt update
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+if getent group docker > /dev/null; then
+  sudo usermod -aG docker $USER
+else
+  sudo groupadd docker
+  sudo usermod -aG docker $USER
+fi
+
+# Start Docker on boot
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+
+# ---------------------------------------------------
+# Install DDEV
+# ---------------------------------------------------
+echo "📝 Installing DDEV..."
+
+sudo sh -c 'echo ""'
+sudo apt-get update && sudo apt-get install -y curl
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://pkg.ddev.com/apt/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/ddev.gpg > /dev/null
+sudo chmod a+r /etc/apt/keyrings/ddev.gpg
+sudo sh -c 'echo ""'
+echo "deb [signed-by=/etc/apt/keyrings/ddev.gpg] https://pkg.ddev.com/apt/ * *" | sudo tee /etc/apt/sources.list.d/ddev.list >/dev/null
+sudo sh -c 'echo ""'
+sudo apt-get update && sudo apt-get install -y ddev
+
+# Allow browsers to trust HTTPS/TLS certificates served by DDEV
+mkcert -install
 
 echo "✅ Setup complete!"
-echo "🔁 Close and restart terminal."
+echo "🔁 Close and restart Ubuntu."
