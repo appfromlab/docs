@@ -17,9 +17,19 @@
 - Docker CLI.
 - DDEV.
 
+## Create a New macOS User
+
+We want a separate Mac OS user account for personal and development.
+
+1. Open macOS Settings > Users & Groups.
+1. Add User > Standard.
+
+[https://support.apple.com/](https://support.apple.com/en-sg/guide/mac-help/mchl3e281fc9/mac)
+
+
 ## Run Post Install Script
 
-This will install PHP 8.4, Composer, WordPress Coding Standards, Visual Studio Code, Colima and DDEV.
+1. Login to your new user account.
 
 ### Auto-install:
 
@@ -80,3 +90,8 @@ code .
 ```
 
 2. Use the integrated Git Clone feature in VS Code by pressing `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac) and select "Git: Clone"
+
+## Optional Installation
+
+- [Github Desktop](https://desktop.github.com/download/) - GUI for GitHub.
+- [LocalWP](https://localwp.com/) - GUI to install WordPress on local computer.

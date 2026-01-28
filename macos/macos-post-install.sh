@@ -61,11 +61,16 @@ echo "🐘 Installing PHP ${PHP_VERSION} and required extensions..."
 # Tap the Homebrew PHP repository
 brew tap shivammathur/php
 
+# Unlink any previously installed PHP versions to avoid conflicts
+if brew list "php@${PHP_VERSION}" &>/dev/null; then
+brew unlink "php@${PHP_VERSION}" 2>/dev/null || true
+fi
+
 # Install PHP with required extensions
 brew install shivammathur/php/php@${PHP_VERSION}
 
 # Link PHP to make it available in PATH
-brew link php@${PHP_VERSION} --force
+brew link php@${PHP_VERSION} --force --overwrite
 
 # Verify PHP
 php -v
@@ -125,13 +130,9 @@ brew install colima docker
 # Start Colima
 if ! colima status &> /dev/null; then
   echo "🚀 Starting Colima..."
-  colima start
 else
   echo "✅ Colima is already running"
 fi
-
-# Verify Docker client connectivity
-docker --version
 
 # ---------------------------------------------------
 # Install DDEV
@@ -139,9 +140,6 @@ docker --version
 echo "📝 Installing DDEV..."
 
 brew install ddev/ddev/ddev
-
-# Verify DDEV
-ddev version
 
 # ---------------------------------------------------
 # Install mkcert for local HTTPS support
@@ -156,13 +154,20 @@ if ! mkcert -CAROOT > /dev/null 2>&1; then
 fi
 
 # ---------------------------------------------------
+# Set Mac OS Config
+# ---------------------------------------------------
+
+# Show hidden files
+defaults write com.apple.finder AppleShowAllFiles YES
+
+# Show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Show status bar
+defaults write com.apple.finder ShowStatusBar -bool true
+
+# ---------------------------------------------------
 # Completed
 # ---------------------------------------------------
 echo "✅ Setup complete!"
-echo ""
-echo "⚠️  IMPORTANT NEXT STEPS:"
-echo "1. Close and restart your Terminal"
-echo "2. Verify Colima is running with 'colima status'"
-echo "3. Run 'docker --version' to verify Docker client is working"
-echo ""
-echo "Ready for PHP + WordPress development on macOS! 🚀"
+echo "🔁 Close and restart OS."
