@@ -22,13 +22,58 @@
 We want a separate Mac OS user account for personal and development.
 
 1. Open macOS Settings > Users & Groups.
-1. Add User > Standard.
+1. Add User > `Standard`.
 
 [https://support.apple.com/](https://support.apple.com/en-sg/guide/mac-help/mchl3e281fc9/mac)
 
+### Give sudo access to the new user.
+
+Check the username of the new user.
+
+```bash
+dscl . list /Users | grep -v '^_’
+```
+
+Add the username to a custom sudoers file.
+
+```bash
+sudo visudo -f /etc/sudoers.d/custom
+```
+
+Type `i` to insert a new line and enter the following line to give sudo access.
+
+```
+username ALL=(ALL) ALL
+```
+
+To quit edit mode, press `ESC` on the keyboard.
+
+To save type `:wq` and press `ENTER` on the keyboard.
+
+## Switch to your new user account
+
+1. Logoff from your macOS.
+2. Select your new user.
+
+## Install Homebrew
+
+If you don't have Homebrew installed, run:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Once completed, you will see a `Next Steps` section in the terminal. Copy the commands to create a shortcut command for `brew`.
+
+Verify installation:
+
+```bash
+brew --version
+```
+
 ## Run Post Install Script
 
-1. Login to your new user account.
+This will install most of the softwares.
 
 ### Auto-install:
 
