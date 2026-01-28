@@ -170,9 +170,11 @@ Components: stable
 Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 
+# Install Docker
 sudo apt update
 sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+# Add user to docker group
 if getent group docker > /dev/null; then
   sudo usermod -aG docker $USER
 else
@@ -190,7 +192,6 @@ sudo systemctl enable containerd.service
 echo "📝 Installing DDEV..."
 
 sudo sh -c 'echo ""'
-sudo apt-get update && sudo apt-get install -y curl
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://pkg.ddev.com/apt/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/ddev.gpg > /dev/null
 sudo chmod a+r /etc/apt/keyrings/ddev.gpg
@@ -202,5 +203,8 @@ sudo apt-get update && sudo apt-get install -y ddev
 # Allow browsers to trust HTTPS/TLS certificates served by DDEV
 mkcert -install
 
+# ---------------------------------------------------
+# Completed
+# ---------------------------------------------------
 echo "✅ Setup complete!"
 echo "🔁 Close and restart Ubuntu."

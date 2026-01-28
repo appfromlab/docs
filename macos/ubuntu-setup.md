@@ -92,20 +92,28 @@ gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
 
 This will install PHP, Composer, WordPress Coding Standards, Visual Studio Code, Docker Engine and DDEV.
 
+Auto-install:
+
 ```bash
-curl -L "https://github.com/appfromlab/docs/apple/post-install.sh" -O ~/Desktop/post-install.sh
-chmod +x post-install.sh
+curl -L "https://github.com/appfromlab/docs/macos/ubuntu-post-install.sh" -O ~/Desktop/ubuntu-post-install.sh
+chmod +x ubuntu-post-install.sh
 ./post-install.sh
 ```
 
-### Install VS Code Extensions
-
-Was unable to install VS Code extensions as part of post-install.sh script. So you have to install manually.
+For manual installation, open a Terminal in your desktop:
 
 ```bash
-code --install-extension bmewburn.vscode-intelephense-client
-code --install-extension valeryanm.vscode-phpsab
-code --install-extension github.vscode-pull-request-github
+touch ubuntu-post-install.sh
+chmod +x ubuntu-post-install.sh
+```
+
+- Copy the file content from [ubuntu-post-install.sh](https://github.com/appfromlab/docs/macos/ubuntu-post-install.sh)
+- Paste content into your `ubuntu-post-install.sh` file on your Desktop.
+- Save and run the terminal command below.
+- Delete this file after successful installation.
+
+```bash
+./ubuntu-post-install.sh
 ```
 
 ### Test
@@ -132,7 +140,13 @@ gh auth login
 
 ## Open VS Code
 
-1. In the top command bar.
+1. Go to your project folder and enter the following. The period (.) at the end means open the current folder in VS Code.
+
+```bash
+code .
+```
+
+2. VS Code > Top search bar > Enter the following.
 
 ```bash
 >Git:clone
