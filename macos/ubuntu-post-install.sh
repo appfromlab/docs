@@ -41,6 +41,8 @@ sudo apt install -y \
   gnupg \
   lsb-release \
   qemu-guest-agent
+  git \
+  gh
 
 # ---------------------------------------------------
 # PHP + required extensions for PHPCS / PHPCBF
@@ -95,12 +97,6 @@ if [[ ":$PATH:" != *":$COMPOSER_BIN:"* ]]; then
   # Reload configuration
   source ~/.bashrc
 fi
-
-# ---------------------------------------------------
-# Git + GitHub CLI
-# ---------------------------------------------------
-echo "🐙 Installing Git and GitHub CLI..."
-sudo apt install -y git gh
 
 # ---------------------------------------------------
 # Cleanup for Microsoft GPG key (modern method)
