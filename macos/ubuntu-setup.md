@@ -95,7 +95,7 @@ This will install PHP, Composer, WordPress Coding Standards, Visual Studio Code,
 Auto-install:
 
 ```bash
-curl -L "https://github.com/appfromlab/docs/macos/ubuntu-post-install.sh" -O ~/Desktop/ubuntu-post-install.sh
+curl -L "https://raw.githubusercontent.com/appfromlab/docs/main/macos/ubuntu-post-install.sh" -O ~/Desktop/ubuntu-post-install.sh
 chmod +x ubuntu-post-install.sh
 ./post-install.sh
 ```

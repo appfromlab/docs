@@ -26,7 +26,6 @@ We want a separate Mac OS user account for personal and development.
 
 [https://support.apple.com/](https://support.apple.com/en-sg/guide/mac-help/mchl3e281fc9/mac)
 
-
 ## Run Post Install Script
 
 1. Login to your new user account.
