@@ -3,6 +3,12 @@
 set -e
 echo "🚀 Starting macOS PHP + WordPress development setup..."
 
+# Check that this script is not run with sudo
+if [[ $EUID -eq 0 ]]; then
+  echo "❌ ERROR: This script should not be run with sudo. Please run the script without sudo."
+  exit 1
+fi
+
 # Set PHP Version
 PHP_VERSION="8.4"
 
