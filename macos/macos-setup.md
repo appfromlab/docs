@@ -113,7 +113,7 @@ php -v
 composer -V
 
 # Check DDEV
-ddev -V
+ddev -v
 
 # Check Docker
 docker --version
