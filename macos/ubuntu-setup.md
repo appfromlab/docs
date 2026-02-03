@@ -15,9 +15,13 @@
 - Docker Engine.
 - DDEV.
 
-## Download Ubuntu Desktop ARM64 Image
+## Download Ubuntu Desktop
 
-1. Download Ubuntu Desktop [https://launchpad.net/ubuntu/+cdmirrors](https://launchpad.net/ubuntu/+cdmirrors)
+Use the LTS version of Ubuntu Desktop for ARM64
+
+1. Go to [https://cdimage.ubuntu.com/releases/](https://cdimage.ubuntu.com/releases/)
+1. Select folder 24.04.3/releases/.
+1. Download Desktop Image 64-bit ARM - [ubuntu-24.04.3-desktop-arm64.iso](https://cdimage.ubuntu.com/releases/24.04.3/release/ubuntu-24.04.3-desktop-arm64.iso)
 
 ## Download UTM Virtualization App for Mac
 
@@ -95,9 +99,12 @@ This will install PHP, Composer, WordPress Coding Standards, Visual Studio Code,
 Auto-install:
 
 ```bash
-curl -L "https://raw.githubusercontent.com/appfromlab/docs/main/macos/ubuntu-post-install.sh" -O ~/Desktop/ubuntu-post-install.sh
+sudo apt update
+sudo apt upgrade -y
+sudo apt install curl -y
+curl -L "https://raw.githubusercontent.com/appfromlab/docs/main/macos/ubuntu-post-install.sh" -o ~/Desktop/ubuntu-post-install.sh
 chmod +x ubuntu-post-install.sh
-./post-install.sh
+./ubuntu-post-install.sh
 ```
 
 For manual installation, open a Terminal in your desktop:
@@ -126,7 +133,7 @@ chmod +x ubuntu-post-install.sh
 composer -V
 
 # Check DDEV
-ddev -V
+ddev -v
 
 # Check Docker
 sudo systemctl status docker

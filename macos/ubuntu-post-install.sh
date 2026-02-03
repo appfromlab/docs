@@ -46,7 +46,7 @@ sudo apt install -y \
   ca-certificates \
   gnupg \
   lsb-release \
-  qemu-guest-agent
+  qemu-guest-agent \
   git \
   gh
 
@@ -174,7 +174,7 @@ EOF
 
 # Install Docker
 sudo apt update
-sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # Add user to docker group
 if getent group docker > /dev/null; then
