@@ -9,6 +9,15 @@ if [[ $EUID -eq 0 ]]; then
   exit 1
 fi
 
+if open -Ra "Visual Studio Code"; then
+  echo "❌ ERROR: Uninstall Visual Studio Code first."
+  echo "❌ INFO: Check first using 'brew uninstall visual-studio-code'"
+  exit 1
+fi
+
+# Location of ZSH configuration file
+ZSHRC_FILE="$HOME/.zshrc"
+
 # Set PHP Version
 PHP_VERSION="8.4"
 
@@ -103,14 +112,21 @@ composer global require --dev wp-coding-standards/wpcs:"${WPCS_VERSION}" -W
 # ---------------------------------------------------
 # Ensure Composer global bin is in PATH
 # ---------------------------------------------------
-COMPOSER_BIN="$HOME/.composer/vendor/bin"
 
-if [[ ":$PATH:" != *":$COMPOSER_BIN:"* ]]; then
-  echo "🔧 Adding Composer global bin to PATH"
-  echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.zshrc
-  echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.bash_profile
-  # Reload configuration
-  source ~/.zshrc 2>/dev/null || true
+# Script to add COMPOSER_BIN_LINE export to ~/.zshrc
+COMPOSER_BIN_LINE='export PATH="$PATH:$HOME/.composer/vendor/bin'
+
+# Check if the line already exists
+if grep -Fxq "$COMPOSER_BIN_LINE" "$ZSHRC_FILE"; then
+  echo "✅ COMPOSER_BIN_LINE is already in ~/.zshrc"
+else
+  # Add the line to ~/.zshrc
+  echo "$COMPOSER_BIN_LINE" >> "$ZSHRC_FILE"
+  echo "✅ Added COMPOSER_BIN_LINE to ~/.zshrc"
+
+  # Reload the shell configuration
+  source "$ZSHRC_FILE" 2>/dev/null || true
+  echo "✅ Configuration reloaded"
 fi
 
 # ---------------------------------------------------
@@ -128,14 +144,32 @@ code --install-extension github.vscode-pull-request-github
 # ---------------------------------------------------
 # Colima (Container runtime for macOS)
 # ---------------------------------------------------
-echo "🐳 Installing Colima..."
+echo "🐳 Installing Colima and Docker..."
 
 # Install Colima and Docker client
 brew install colima docker
 
+# Script to add DOCKER_HOST export to ~/.zshrc
+DOCKER_HOST_LINE='export DOCKER_HOST="unix://$HOME/.colima/default/docker.sock"'
+
+# Check if the line already exists
+if grep -Fxq "$DOCKER_HOST_LINE" "$ZSHRC_FILE"; then
+  echo "✅ DOCKER_HOST is already in ~/.zshrc"
+else
+  # Add the line to ~/.zshrc
+  echo "$DOCKER_HOST_LINE" >> "$ZSHRC_FILE"
+  echo "✅ Added DOCKER_HOST to ~/.zshrc"
+
+  # Reload the shell configuration
+  source "$ZSHRC_FILE" 2>/dev/null || true
+  echo "✅ Configuration reloaded"
+fi
+
 # Start Colima
 if ! colima status &> /dev/null; then
   echo "🚀 Starting Colima..."
+  colima stop
+  colima start --cpu 4 --memory 6 --disk 100 --vm-type=vz --mount-type=virtiofs --dns=1.1.1.1
 else
   echo "✅ Colima is already running"
 fi
