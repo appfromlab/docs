@@ -114,7 +114,7 @@ composer global require --dev wp-coding-standards/wpcs:"${WPCS_VERSION}" -W
 # ---------------------------------------------------
 
 # Script to add COMPOSER_BIN_LINE export to ~/.zshrc
-COMPOSER_BIN_LINE='export PATH="$PATH:$HOME/.composer/vendor/bin'
+COMPOSER_BIN_LINE='export PATH="$PATH:$HOME/.composer/vendor/bin"'
 
 # Check if the line already exists
 if grep -Fxq "$COMPOSER_BIN_LINE" "$ZSHRC_FILE"; then
